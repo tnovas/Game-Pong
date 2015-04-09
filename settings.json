@@ -1,0 +1,70 @@
+var settings = {
+
+	// Ball
+	ball: {
+		speed: {
+			normal: 60,
+			increaseSpeed: 10,
+			maxSpeed: 20
+		},
+		position: {
+			x: 300,
+			y: 200	
+		},
+		size: {
+			width: 10,
+			height: 10
+		}
+	},
+
+	// Field
+	field: {
+		size: {
+			width: 20,
+			height: 20
+		}
+	},
+
+	// Players
+	player1: {
+		moveSpeed: 5,
+		keywords: {
+			up: 87,
+			down: 83
+		},
+		size: {
+			width: 15,
+			height: 400
+		},
+		position: {
+			x: 0,
+			y: 0
+		},
+		image: 'racketPlayer1'
+	},
+	
+	player2: {
+		moveSpeed: 5,
+		keywords: {
+			up: 38,
+			down: 40
+		},
+		size: {
+			width: 15,
+			height: 400
+		},
+		position: {
+			x: 580,
+			y: 0
+		},
+		image: 'racketPlayer2'
+	},
+
+	// Canvas
+	canvas: {
+		size: {
+			width: 600,
+			height: 400	
+		}
+	}
+}
