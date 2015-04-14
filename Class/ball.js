@@ -1,9 +1,9 @@
 Ball = function(speed, position, size){
 	
 	//Contructor	
-	var speed = speed;
-	var position = position;
-	var size = size;
+	var speed = Object.create(settings.ball.speed);
+	var position = Object.create(settings.ball.position);
+	var size = settings.ball.size;
 	var positionView = {
 		x: [],
 		y: []
@@ -15,12 +15,43 @@ Ball = function(speed, position, size){
 	var directions = [{x: 3, y: 2}, {x:3, y:4}, {x:4, y:2}];
 	var intervalUpdate;
 
-	//Init
+	//Load
 	(function (){
 		move(false);
 		directionY = directions[2];
 		createInterval();
 	})();
+
+	//Public Methods
+	this.GetPosition = function(){
+		return position;
+	};
+
+	this.GetSize = function() {
+		return size;
+	};
+
+	this.GetSpeed = function(){
+		return speed;
+	};
+
+	this.GetPositionView = function(){
+		makePositionView();
+		return positionView;
+	};
+
+	this.PlayerImpact = function(){
+		if (speed.normal > speed.maxSpeed) {
+			speed.normal -= speed.increaseSpeed;
+			createInterval();
+		}
+
+		move(true);
+	};
+
+	this.WallImpact = function(){
+		move(false);
+	};
 
 	//Private Methods
 	function makePositionView(){
@@ -66,35 +97,4 @@ Ball = function(speed, position, size){
 			updatePosition()
 		}, speed.normal);
 	}
-
-	//Public Methods
-	this.GetPosition = function(){
-		return position;
-	};
-
-	this.GetSize = function() {
-		return size;
-	};
-
-	this.GetSpeed = function(){
-		return speed;
-	};
-
-	this.GetPositionView = function(){
-		makePositionView();
-		return positionView;
-	};
-
-	this.PlayerImpact = function(){
-		if (speed.normal > speed.maxSpeed) {
-			speed.normal -= speed.increaseSpeed;
-			createInterval();
-		}
-
-		move(true);
-	};
-
-	this.WallImpact = function(){
-		move(false);
-	};
 }

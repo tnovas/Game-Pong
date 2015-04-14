@@ -1,37 +1,50 @@
 var app = {};
 
+var gameSettings = new Settings();
+
 var keysPlayers = [
-	settings.player1.keywords.up,
-	settings.player1.keywords.down,
-	settings.player2.keywords.up,
-	settings.player2.keywords.down
+	gameSettings.Player1.GetKeywords().up,
+	gameSettings.Player1.GetKeywords().down,
+	gameSettings.Player2.GetKeywords().up,
+	gameSettings.Player2.GetKeywords().down
 ]
 
 var canvas = document.getElementById('canvas');
 
 var canvasContext = canvas.getContext('2d');
 
-canvas.width = settings.canvas.size.width;
+var canvasSize = gameSettings.Canvas.GetSize();
 
-canvas.height = settings.canvas.size.height;
+canvas.width = canvasSize.width;
 
-app.ball = new Ball(settings.ball.speed, settings.ball.position, settings.ball.size);
+canvas.height = canvasSize.height;
 
-app.player1 = new Player('Player1', settings.player1.size, settings.player1.image, settings.player1.position, settings.player1.keywords, settings.player1.moveSpeed);
+app.ball = new Ball(gameSettings.Ball.GetSpeed(),
+					gameSettings.Ball.GetPosition(),
+					gameSettings.Ball.GetSize());
 
-app.player2 = new Player('Player2', settings.player2.size, settings.player2.image, settings.player2.position, settings.player2.keywords, settings.player2.moveSpeed);
+app.player1 = new Player('Player1',
+						 gameSettings.Player1.GetSize(),
+						 gameSettings.Player1.GetPosition(),
+						 gameSettings.Player1.GetKeywords(),
+						 gameSettings.Player1.GetMoveSpeed());
 
-app.field = new Field(settings.canvas.size, settings.field.size);
+app.player2 = new Player('Player2',
+						 gameSettings.Player2.GetSize(),
+						 gameSettings.Player2.GetPosition(),
+						 gameSettings.Player2.GetKeywords(),
+						 gameSettings.Player2.GetMoveSpeed());
 
-app.canvas = new Canvas(canvasContext, settings.canvas.size);
+app.field = new Field(canvasSize,
+					  gameSettings.Field.GetPosition());
 
-app.game = new Game(app.player1, app.player2, app.ball, app.field, app.canvas);
+app.canvas = new Canvas(canvasContext,
+						canvasSize);
+
+app.game = new Game(app.player1,
+					app.player2,
+					app.ball,
+					app.field,
+					app.canvas);
 
 app.game.Start();
-
-window.addEventListener('keydown', function(e){
-	var key = e.keyCode;
-	if (keysPlayers.indexOf(key) !== -1) {
-		app.game.MovePlayer(key);	
-	}
-});

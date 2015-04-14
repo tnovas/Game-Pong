@@ -3,9 +3,9 @@ var settings = {
 	// Ball
 	ball: {
 		speed: {
-			normal: 60,
+			normal: 30,
 			increaseSpeed: 10,
-			maxSpeed: 20
+			maxSpeed: 10
 		},
 		position: {
 			x: 300,
@@ -27,37 +27,35 @@ var settings = {
 
 	// Players
 	player1: {
-		moveSpeed: 5,
+		moveSpeed: 3,
 		keywords: {
 			up: 87,
 			down: 83
 		},
 		size: {
 			width: 15,
-			height: 400
+			height: 75
 		},
 		position: {
-			x: 0,
+			x: 20,
 			y: 0
-		},
-		image: 'racketPlayer1'
+		}
 	},
 	
 	player2: {
-		moveSpeed: 5,
+		moveSpeed: 3,
 		keywords: {
 			up: 38,
 			down: 40
 		},
 		size: {
 			width: 15,
-			height: 400
+			height: 75
 		},
 		position: {
-			x: 580,
+			x: 560,
 			y: 0
-		},
-		image: 'racketPlayer2'
+		}
 	},
 
 	// Canvas

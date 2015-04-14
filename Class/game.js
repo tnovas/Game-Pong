@@ -11,8 +11,46 @@ Game = function(player1, player2, ball, field, canvas) {
 	var playerCollision;
 	var wallTop;
 	var wallBot;
+	var keys = [];
+
+	//Events
+	window.addEventListener('keydown', function(e){
+		if (keysPlayers.indexOf(e.keyCode) !== -1 &&
+			keys.indexOf(e.keyCode) === -1) {
+			keys.push(e.keyCode);
+		}
+	});
+
+	window.addEventListener('keyup', function(e){
+		if (keysPlayers.indexOf(e.keyCode) !== -1) {
+			var index = keys.indexOf(e.keyCode);
+			keys.splice(index, 1);
+		}
+	});
+
+	//Public Methods
+	this.Start = function() {
+		loop();
+	};
 
 	//Private Methods
+	function loop(){
+		drawGame();	
+		checkCollision();
+		checkKeys();
+		timer = window.requestAnimationFrame(loop);
+	};
+
+	function checkKeys() {
+		if (keys.length > 0) {
+			keys.forEach(function(key){
+				players.forEach(function(player){
+					player.Move(key);
+				})
+			})
+		}
+	};
+
 	function drawGame() {
 		canvas.Clean();
 		canvas.Draw(ball.GetPosition(), ball.GetSize());
@@ -24,6 +62,11 @@ Game = function(player1, player2, ball, field, canvas) {
 
 	function checkCollision() {
 		var ballPosition = ball.GetPositionView();
+		checkCollisionPlayer(ballPosition);
+		checkCollisionWall(ballPosition);
+	};
+
+	function checkCollisionPlayer(ballPosition){
 		players.forEach(function(player){
 			if (playerCollision == player) {
 				return;
@@ -52,7 +95,9 @@ Game = function(player1, player2, ball, field, canvas) {
 				ball.PlayerImpact();
 			}
 		});		
+	}
 
+	function checkCollisionWall(ballPosition){
 		if (ballPosition.y[0] <= field.GetPosition().x && !wallTop) {
 			wallTop = true;
 			wallBot = false;
@@ -63,19 +108,28 @@ Game = function(player1, player2, ball, field, canvas) {
 			wallBot = true;
 			ball.WallImpact();
 		}
-	};
 
-	//Public Methods
-	this.Start = function() {
-		setInterval(function(){
-			drawGame();	
-			checkCollision();
-		}, 100);
-	};
+		if (ballPosition.x[0] <= field.GetPosition().x) {
+			players[1].SetPoint();
+			win();
+		}
 
-	this.MovePlayer = function(keyPress) {
-		players.forEach(function(player){
-			player.Move(keyPress);
-		})
-	};
+		if (ballPosition.x[ballPosition.x.length-1] >= field.GetSize().width) {
+			players[0].SetPoint();
+			win();
+		}
+	}
+
+	function win(){
+		document.getElementById('player1').innerHTML = players[0].GetPoints();
+		document.getElementById('player2').innerHTML = players[1].GetPoints();
+		reset();
+	}
+
+	function reset(){
+		ball = new Ball(settings.ball.speed, settings.ball.position, settings.ball.size);
+		wallTop = false;
+		wallBot = false;
+		playerCollision = {};
+	}
 }

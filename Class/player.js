@@ -1,4 +1,4 @@
-Player = function(name, size, image, position, direction, moveSpeed){
+Player = function(name, size, position, direction, moveSpeed){
 
 	//Contructor
 	var name = name;
@@ -7,7 +7,6 @@ Player = function(name, size, image, position, direction, moveSpeed){
 	var direction = direction;
 	var racket = {
 		size: size,
-		image: image,
 		position: position,
 		positionView: {
 			x: [],
@@ -15,26 +14,13 @@ Player = function(name, size, image, position, direction, moveSpeed){
 		}
 	}; 
 
-	//Private Methods
-	function makeRacketPositionView(){
-		racket.positionView.y = [];
-		racket.positionView.x = [];
-		for (var i = 0; i <= racket.size.height; i++) {
-			racket.positionView.y.push(racket.position.y + i);
-		};
-
-		for (var i = 0; i <= racket.size.width; i++) {
-			racket.positionView.x.push(racket.position.x + i);
-		};
-	};
-
 	//Public Methods
-	this.SetPoints = function() {
+	this.SetPoint = function() {
 		points++;
 	};
 
-	this.GetImage = function(){
-		return racket.image;
+	this.GetPoints = function() {
+		return points;
 	};
 
 	this.GetPositionView = function(){
@@ -50,11 +36,24 @@ Player = function(name, size, image, position, direction, moveSpeed){
 		return racket.size;
 	};
 
-	this.Move = function(key){
-		if (key === direction.up){
+	this.Move = function(key, field){
+		if (key === direction.up) {
 			racket.position.y -= moveSpeed;
 		} else if (key === direction.down) {
 			racket.position.y += moveSpeed;
 		}
+	};
+
+	//Private Methods
+	function makeRacketPositionView(){
+		racket.positionView.y = [];
+		racket.positionView.x = [];
+		for (var i = 0; i <= racket.size.height; i++) {
+			racket.positionView.y.push(racket.position.y + i);
+		};
+
+		for (var i = 0; i <= racket.size.width; i++) {
+			racket.positionView.x.push(racket.position.x + i);
+		};
 	};
 }

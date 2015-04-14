@@ -1,7 +1,10 @@
-Field = function(position, size){
-	var size = { height: size.height, width: position.width };
-	var position = {x: 0, y: position.height}; 
+Field = function(positionCanvas, position){
 
+	//Contructor
+	var size = { height: position.height, width: positionCanvas.width };
+	var position = {x: 0, y: positionCanvas.height}; 
+
+	//Public Methods
 	this.GetPosition = function(){
 		return position;
 	};
