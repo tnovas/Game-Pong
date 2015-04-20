@@ -1,4 +1,4 @@
-Player = function(name, size, position, direction, moveSpeed){
+Player = function(name, size, position, direction, moveSpeed) {
 
 	//Contructor
 	var name = name;
@@ -13,6 +13,7 @@ Player = function(name, size, position, direction, moveSpeed){
 			y: []
 		}
 	}; 
+	var stopMove;
 
 	//Public Methods
 	this.SetPoint = function() {
@@ -28,7 +29,7 @@ Player = function(name, size, position, direction, moveSpeed){
 		return racket.positionView;
 	};
 
-	this.GetPosition = function(){
+	this.GetPosition = function() {
 		return racket.position;
 	};
 
@@ -36,16 +37,21 @@ Player = function(name, size, position, direction, moveSpeed){
 		return racket.size;
 	};
 
-	this.Move = function(key, field){
-		if (key === direction.up) {
+	this.Move = function(key) {
+		if (key === direction.up && stopMove !== 1) {
 			racket.position.y -= moveSpeed;
-		} else if (key === direction.down) {
+		} else if (key === direction.down && stopMove !== 2) {
 			racket.position.y += moveSpeed;
 		}
+		stopMove = 0;
 	};
 
+	this.Stop = function(stop){
+		stopMove = stop;
+	}
+
 	//Private Methods
-	function makeRacketPositionView(){
+	function makeRacketPositionView() {
 		racket.positionView.y = [];
 		racket.positionView.x = [];
 		for (var i = 0; i <= racket.size.height; i++) {

@@ -8,10 +8,11 @@ Game = function(player1, player2, ball, field, canvas) {
 		player1, 
 		player2
 	];
-	var playerCollision;
-	var wallTop;
-	var wallBot;
-	var keys = [];
+
+	var playerCollision,
+		wallTop,
+		wallBot,
+		keys = [];
 
 	//Events
 	window.addEventListener('keydown', function(e){
@@ -62,42 +63,55 @@ Game = function(player1, player2, ball, field, canvas) {
 
 	function checkCollision() {
 		var ballPosition = ball.GetPositionView();
-		checkCollisionPlayer(ballPosition);
-		checkCollisionWall(ballPosition);
+		var fieldPosition = field.GetPositionView();
+
+		players.forEach(function(player){
+			checkCollisionPlayerBall(player, ballPosition)
+			checkCollisionPlayerWall(player);
+		});
+
+		checkCollisionBallWall(ballPosition);
 	};
 
-	function checkCollisionPlayer(ballPosition){
-		players.forEach(function(player){
-			if (playerCollision == player) {
-				return;
+	function checkCollisionPlayerBall(player, ballPosition){
+		if (playerCollision == player) {
+			return;
+		}
+
+		var playerPosition = player.GetPositionView();
+		var collisionY = false;
+		var collisionX = false;
+
+		ballPosition.y.forEach(function(ball){
+			if (playerPosition.y.indexOf(ball) !== -1) {
+				collisionY = true;
 			}
+		});
 
-			var playerPosition = player.GetPositionView();
-			var collisionY = false;
-			var collisionX = false;
-
-			ballPosition.y.forEach(function(ball){
-				if (playerPosition.y.indexOf(ball) !== -1) {
-					collisionY = true;
-				}
-			});
-
-			ballPosition.x.forEach(function(ball){
-				if (playerPosition.x.indexOf(ball) !== -1) {
-					collisionX = true;
-				}
-			});
-
-			if (collisionX && collisionY) {
-				playerCollision = player;
-				wallTop = false;
-				wallBot = false;
-				ball.PlayerImpact();
+		ballPosition.x.forEach(function(ball){
+			if (playerPosition.x.indexOf(ball) !== -1) {
+				collisionX = true;
 			}
-		});		
+		});
+
+		if (collisionX && collisionY) {
+			playerCollision = player;
+			wallTop = false;
+			wallBot = false;
+			ball.PlayerImpact();
+		}
 	}
 
-	function checkCollisionWall(ballPosition){
+	function checkCollisionPlayerWall(player){
+		var playerPosition = player.GetPositionView();
+		if (playerPosition.y[0] <= field.GetPosition().x) {
+			player.Stop(1);
+		} else if (playerPosition.y[playerPosition.y.length-1] >= field.GetPosition().y) {
+			player.Stop(2);
+		}
+	}
+
+	function checkCollisionBallWall(ballPosition){
 		if (ballPosition.y[0] <= field.GetPosition().x && !wallTop) {
 			wallTop = true;
 			wallBot = false;
