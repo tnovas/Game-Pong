@@ -1,0 +1,15 @@
+{
+  "author": "Tomas Novas",
+  "name": "Pong",
+  "description": "",
+  "version": "1.0.0",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "express": "~4.12.2"
+  }
+}
