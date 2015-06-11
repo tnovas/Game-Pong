@@ -5,7 +5,7 @@
 	* Player 2: Up - Down
 
 * Settings:
-	* Change file settings.json.
+	* Change file settings.js
 
 * Play: 
 	* In local: run index.html
